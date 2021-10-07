@@ -1,0 +1,72 @@
+{% extends 'chats_base.html' %}
+{% load humanize %}
+
+{% block content %}
+<style>
+	.chat-frame{
+		height: 90vh;
+	}
+	.chat{
+		overflow-y: scroll;
+		height: 85%;
+	}
+	.chat-form{
+		background: #fff;
+		height: 15%;
+	}
+</style>
+<div class="content-wrapper">
+    <div class="container-fluid">
+		<div class="chat-frame">
+			<div class="chat p-2">
+				{% for message in chat.message_set.all %}
+
+
+				<div class="content">
+					<div class="messages">
+						<ul>
+							<li class="{% if user.id == message.user.id %} replies   justify-content-end {% else %} sent {% endif %}" style="word-break: break-all;">
+								<p>{{message.text}}
+									<br>
+									
+									<sub>
+										{% if user.id != message.user.id %}
+										<i class="fa fa-check"></i>
+										{% if message.readed %}
+										<i class="fa fa-check" style="margin-left: -7px"></i>
+										{% endif %}
+										{% endif %}
+										{{message.date|timesince}} назад
+										{% if user.id == message.user.id %}
+										<i class="fa fa-check"></i>
+										{% if message.readed %}
+										<i class="fa fa-check" style="margin-left: -7px"></i>
+										{% endif %}
+										{% endif %}
+									</sub>
+									
+								</p>
+								
+							</li>
+							
+						</ul>
+					</div>
+				</div>
+				{% endfor %}
+			
+			
+		</div>
+		<div class="chat-form p-2">
+			<form action="{% url 'send_message' chat.id %}" method="POST">
+				{% csrf_token %}
+				<div class="d-flex">
+					<textarea name="text" id="" cols="30" class="form-control"></textarea>
+					<button class="btn btn-success"><i class="fa fa-plus"></i></button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+
+{% endblock %}

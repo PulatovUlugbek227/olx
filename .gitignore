@@ -1,0 +1,9 @@
+media/
+db.sqlite3
+board/_pycache_/
+custom_admin/_pycache_/
+board/migrations/
+custom_admin/migrations/
+olx/_pycache_/
+board/static/admin/
+.vscode

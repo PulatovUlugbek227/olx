@@ -1,0 +1,41 @@
+{% extends 'basetwo.html' %}
+
+{% block title %}
+Регистрация
+{% endblock %}
+
+{% block content %}
+<div class="container notmain ">			
+<ul class="breadcrumb" itemscope="" itemtype="http://schema.org/BreadcrumbList">
+<li class="first-child" itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem"><a href="../index.htm" itemprop="item"><span itemprop="name">Board.uz доска бесплатных объявлений Узбекистан</span><meta itemprop="position" content="1"></a></li>
+<li class="last-child" itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem"> &raquo; <span itemprop="name">Создать новый аккаунт</span><meta itemprop="position" content="2"></li>
+</ul>
+<div class="container">
+    <div class="forcemessages-inline">
+</div>
+            <!-- content -->
+<div class="publish">
+        <form name="register" id="register" class="form-publish" action="{% url 'register' %}" method="POST">
+        <h2 class="center">Регистрация</h2>
+        <div class="inp-group">
+        {% csrf_token %}
+        {{register_form.as_p}}
+</div>
+    <div class="inp-group">
+     <p>* Обязательные поля</p>
+    </div>
+     <script type="text/javascript">
+        var RecaptchaOptions = {
+        theme : 'clean'
+            };
+      </script>
+                            <button class="btn btn-primary btn-center" type="submit">Регистрация</button>
+                        </form>
+                    </div>
+                </div>
+            <!-- content -->
+        </div>
+    </div>
+</div>
+
+{% endblock %}

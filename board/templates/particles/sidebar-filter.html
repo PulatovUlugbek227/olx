@@ -1,0 +1,44 @@
+<aside class="col-left">
+    <a href="" class="btn-pink btn-full-width btn-show-filter mobile-show upcase" data-back-text="Закрыть фильтр">Фильтры</a>
+    <form action="{% url 'filter' %}" method="POST" class="l-search nocsrf" id="searchformblock" role="form">
+        {% csrf_token %}
+        <div class="inp-group">
+            <h4 class="inp-group__title">Поиск</h4>
+            <div class="input-search-wrp">
+                <input type="text" value="{{query}}" name="search" placeholder="Поиск" class="input" id="search-example">
+            </div>
+        </div>
+            <div class="inp-group">
+                <h4 class="inp-group__title">Категория</h4>
+                <select name="category" data-placeholder="Категория..">
+                    {% for category in categories %}
+                        <option {% if category.id == c.id %} selected {% endif %} value="{{category.id}}">{{category.title}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="inp-group">
+                <h4 class="inp-group__title">Город</h4>
+                <select name="region" data-placeholder="Город..">
+                    {% for region in regions %}
+                        <option {% if region.id == r.id %} selected {% endif %} value="{{region.id}}">{{region.title}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <h4 class="inp-group__title">Сортировка</h4>
+            <select name="sort">
+                <option {% if sort == '-date' %} selected {% endif %} value="-date">Новые объявления</option>
+                <option {% if sort == 'date' %} selected {% endif %} value="date">Старые объявления</option>
+            </select>
+            <div class="range mt-4">
+                <h4 class="inp-group__title">Цена</h4>
+                <div class="razd"></div>
+                <div class="slider"></div>
+                <div class="slider-bottom"></div>
+                <input type="text" id="priceMin" class="input input2" name="from_price" placeholder="Мин" value="{{from}}">
+                <input type="text" id="priceMax" data-max="{{max_price}}" class="input input3" name="to_price" placeholder="Макс" value="{{to}}">
+            </div>		
+            <div class="inp-group">
+                <button type="submit" class="btn-full-width searchbutton upcase">ПОИСК</button>
+            </div>
+    </form>
+</aside>

@@ -1,0 +1,70 @@
+<aside class="main-sidebar sidebar-light-success elevation-4">
+    <!-- Brand Logo -->
+    
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <!-- Sidebar user panel (optional) -->
+      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <div class="image">
+          <img src="{{request.user.profile.avatar.url}}" class="img-circle elevation-2" alt="User Image">
+        </div>
+        <div class="info">
+          <a href="#" class="d-block">{{request.user.first_name}} {{request.user.last_name}}</a>
+        </div>
+      </div>
+
+      <!-- SidebarSearch Form -->
+      <div class="form-inline">
+        <div class="input-group" data-widget="sidebar-search">
+          <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
+          <div class="input-group-append">
+            <button class="btn btn-sidebar">
+              <i class="fas fa-search fa-fw"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar Menu -->
+      <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <!-- Add icons to the links using the .nav-icon class
+               with font-awesome or any other icon font library -->
+         {% for c in chats %}
+          <li class="nav-item">
+            <a href="{% url 'chat_detail_url' c.id %}" class="nav-link {% if c.post.id == chat.post.id %} active {% endif %} ">
+              <div class="row">
+                <div class="col-md-3">
+                  {% if c.reciever.id == user.id %}
+                  <img style="width: 100%; height:90%; object-fit: cover; border-radius: 100%" src="{{c.sender.profile.avatar.url}}" alt="">
+                  {% else %}
+                  <img style="width: 100%; height:90%; object-fit: cover; border-radius: 100%" src="{{c.reciever.profile.avatar.url}}" alt="">
+                  {% endif %}
+                </div>
+                <div class="col-md-9">
+                  <p>
+                    Товар: {{ c.post.title|slice:"0,10" }}...
+                  </p>
+                  <br>
+                  <p style="font-size: 11px">
+                    От:
+                  {% if user.id != c.reciever.id %}
+                  {{c.reciever.first_name}} 
+                  {{c.reciever.last_name}}
+                  {% else %}
+                  {{c.sender.first_name}} 
+                  {{c.sender.last_name}}
+                  {% endif %}
+                  </p>
+                </div>
+              </div>
+            </a>
+          </li>
+          {% endfor %}
+        </ul>
+      </nav>
+      <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+  </aside>

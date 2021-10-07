@@ -1,0 +1,103 @@
+{% extends 'basetwo.html' %}
+
+{% block title %}
+Создание поста
+{% endblock %}
+
+{% block script %}
+<script src="https://cdn.ckeditor.com/ckeditor5/27.1.0/classic/ckeditor.js"></script>
+{% endblock %}
+
+
+{% block content %}
+
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                  <div class="row align-items-center">
+                      <div class="col-md-6">
+                        <h3 class="card-title" style="m-2">Добавление поста</h3>
+                      </div>
+                  </div>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                <form action="{% url 'post_create' %}" method="POST" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="title" class="my-2">Название</label>
+                        <input type="text" name="title" class="form-control" id="title" >
+                      </div>
+                      <div class="form-group">
+                        <label for="price" class="my-2">Цена</label>
+                        <input type="number" name="price" class="form-control" id="price">
+                       </div>
+                       <div class="form-group">
+                        <label for="regions" class="my-2">Регионы</label>
+                        <select name="regions[]" class="form-control select2" id="regions" multiple>
+                          {% for region in regions %}
+                          <option value="{{region.id}}">{{region.title}}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                       <div class="form-group">
+                        <label for="categories" class="my-2">Категории</label>
+                        <select name="categories[]" class="form-control select2" id="categories" multiple>
+                          {% for category in categories %}
+                          <option value="{{category.id}}">{{category.title}}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-6 my-4">
+                      <div class="form-group">
+                        <label for="image">Картинка</label>
+                        <img src="" class="w-100" style="height: 200px; object-fit: cover;" alt="">
+                        <input type="file" name="image" id="image" class="form-control">
+                      </div>
+                    </div>
+                   
+                    <div class="col-md-12 my-4">
+                      <div class="form-group">
+                        <label for="editor">Описание</label>
+                        <textarea name="description" id="editor" rows="10">
+                           
+                        </textarea>
+                      </div>
+                    </div>
+                    <div class="col-md-12 row align-items-center my-4">
+                      <div class="form-group">
+                        <label for="publish">
+                          <input style="width: auto" type="checkbox" value="True" name="publish" id="publish">
+                          Публикация
+                        </label>
+                      </div>
+                    </div>
+                    <div class="col-md-12 m-2">
+                      <div class="row justify-content-between">
+                        <div class="col-md-2">
+                          <a href="{% url 'profile_posts' %}" class="btn btn-secondary">Назад</a>
+                        </div>
+                        <div class="col-md-2 text-right">
+                          <button class="btn btn-success" style="min-width: auto">Добавить</button>
+                        </div>
+                      </div>
+                    </div>
+                    
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+</div>
+{% endblock %}

@@ -1,0 +1,161 @@
+
+{% extends 'basetwo.html' %}
+
+{% block title %}
+{{post.title}}
+{% endblock %}
+
+{% block content %}
+<div class="wrapper">
+  <div class="wrapper-in">
+    <div class="container notmain item-container">
+      <ul class="breadcrumb" itemscope itemtype="">
+        <li class="first-child" itemprop="itemListElement" itemscope itemtype="" ><a href="{% url 'index' %}" itemprop="item"><span itemprop="name">Board.uz доска бесплатных объявлений Узбекистан</span><meta itemprop="position" content="1" /></a></li>
+        <li itemprop="itemListElement" itemscope itemtype="" > &raquo; <a href="" itemprop="item"><span itemprop="name">
+          {% for category in post.category.all %}
+            <a href="{% url 'category_detail_url' category.slug %}">{{category.title}}</a>
+          {% endfor %}
+        </span><meta itemprop="position" content="2" /></a></li>
+        <li class="last-child" itemprop="itemListElement" itemscope itemtype="" > &raquo; <span itemprop="name">{{post.title}}</span><meta itemprop="position" content="3"></li>
+      </ul>
+      <div class="col-wrp">
+        <div class="col-main item-main">
+          <div class="item-main-info">
+            <div class="item-main-title">
+              <div class="item-main-sutitle">
+                <h1 class="item-ins-name">{{post.title}}</h1><strong class="item-ins__price">{{post.price}} y.e</strong>
+              </div>
+          </div>
+          <div class="item-under-sutitle row">
+            <div class="col-md-6">
+              {% for category in post.category.all %}
+              <a href="{% url 'category_detail_url' category.slug %}" class="small_icon">
+                <span class="item-ins__cat"><i class="mdi mdi-bookmark mdi-24px"></i>{{category.title}}</span>
+              </a>
+              {% endfor %}
+              <span class="item-ins__date"><i class="mdi mdi-calendar-text mdi-24px"></i>{{post.date}}</span>
+              <span class="item-ins__view"><i class="fa fa-eye" aria-hidden="true"></i>{{post.view_set.all.count}}</span>
+            </div>
+            <div class="col-md-6" style="text-align: right;">
+              {% if post.user == request.user or request.user.is_superuser %}
+              <a href="{% url 'post_delete' post.id %}">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                  <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                  <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                </svg>
+              </a>
+              <a href="{% url 'post_edit' post.id %}">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                  <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                  <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                </svg>
+              </a>
+              {% endif %}
+            </div>
+          </div>
+      </div>  
+          <!--  carousel  -->
+          <div class="mb-4" style="background: white;">
+            <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+              <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+              </div>
+              <div class="carousel-inner">
+                <div class="carousel-item active">
+                  <img src="{{post.image.url}}" class="d-block w-100" alt="..." style="height: 500px; object-fit: cover;">
+                </div>
+                {% for gallery in post.gallery_set.all %}
+                <div class="carousel-item">
+                  <img src="{{gallery.image.url}}" class="d-block w-100" alt="..." style="height: 500px; object-fit: cover;">
+                </div>
+                {%  endfor %}
+              </div>
+              <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+              </button>
+            </div>
+          </div>
+          <!-- ----- -->
+          <div class="item-tabs">    
+          <div class="tab active" data-tab="1">
+            <div class="text">
+              <h3>Описание</h3>
+                {{post.description|safe}}
+            </div>
+          </div>
+          
+          <div class="tab" data-tab="3">
+            <script>
+            $(document).ready(function() {    
+            $('#dismap').click(function(e) {
+            var center=map.getCenter();
+            google.maps.event.trigger(map, "resize");
+            map.setCenter(center);
+            });
+            });
+            </script>
+          </div>
+        </div>
+      </div>
+      <aside class="col-right">                                              
+        <div class="item-author">
+          <div class="item-author__user">
+            <a href="" class="item-author__photo"><img src="https://saten.uz/oc-content/themes/eva/img/profile.jpg" alt="profile"></a>
+            <a href="" class="item-author__name">{{post.user}}</a>
+          </div>
+          <div class="item-author__details">
+            {% for region in post.region.all %}<p class="item-author__adress"><i class="mdi mdi-map-marker mdi-24px mdipad"></i><a href="{% url 'region_detail_url' region.slug %}">{{region.title}}</a></p>{% endfor %}
+            <div style="display:block;margin-bottom:5px;cursor:pointer; vertical-align: middle;">   <i class="fa fa-phone" aria-hidden="true"></i> Телефон  {{post.phone_views}}:<span><a href="#"  id="hidePhone" style="display: none;"><img src="show_phone"></a></span>
+              <span id="showPhone" data-url="{% url 'show_phone' post.slug %}">XXXXXXXXXX</span>
+              {% csrf_token %}
+            </div>
+            <a href="{% url 'send_chat' user_id=post.user.id post_id=post.id  %}" id="myBtn" class="btn-pink btn-full-width upcase"><strong>Написать</strong></a>            
+          </div>     
+        </div>
+        <div class="widget-form modalcontact" id="myModal">
+          <div class="modal-content">
+            <span class="closemodal">&times;</span>
+              <p>Вы должны войти или зарегистрироваться на сайте, для того чтобы написать публикатору                        </p>
+            <div class="person__name">													
+              <a href="" class="btn btn-primary">Вход</a>
+              <a href="" class="btn btn-primary">Регистрация</a>
+            </div>  
+          </div>
+        </div>
+      </div>
+      <div class="info-b">
+        <h5>Полезная информация</h5>
+        <ul>
+          <li>Совершайте покупку на месте или с помощью защищённых платёжных систем</li>
+          <li>Не платите при помощи анонимных платёжных систем</li>
+          <li>Не покупайте за пределами своей страны</li>
+          <li>Этот сайт не обрабатывает платежи, доставку, не даёт гарантий, не предоставляет услуг по "защите покупателей" или "сертификации продавцов"</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+             <!-- Related items -->
+<section class="carousel-section related-sec">
+  <div class="container">                 
+  </div>
+</section>
+<div class="tab" data-tab="3">
+  <script>
+  $(document).ready(function() {    
+  $('#dismap').click(function(e) {
+  var center=map.getCenter();
+  google.maps.event.trigger(map, "resize");
+  map.setCenter(center);
+  });
+  });
+  </script>
+</div>
+{% endblock %}

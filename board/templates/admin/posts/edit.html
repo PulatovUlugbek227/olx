@@ -1,0 +1,125 @@
+{% extends 'admin/base.html' %}
+
+{% block content %}
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Записи</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="{% url 'admin' %}">Главная</a></li>
+              <li class="breadcrumb-item active">Записи</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                  <div class="row align-items-center">
+                      <div class="col-md-6">
+                        <h3 class="card-title">Изменение записи</h3>
+                      </div>
+                  </div>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                <form action="{% url 'admin.posts.edit' post.id %}" method="POST" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="title">Название</label>
+                        <input type="text" value="{{post.title}}" name="title" class="form-control" id="title" placeholder="Введи название, пидарас">
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="user">Автор</label>
+                        <select name="user" class="form-control select2">
+                          {%  for user in users %}
+                          <option {% if post.user.id == user.id %} selected {% endif %} value="{{user.id}}">{{user.username}} | {{user.first_name}} {{user.last_name}}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="image">Картинка</label>
+                        <img src="{{post.image.url}}" class="w-100" style="height: 200px; object-fit: cover;" alt="">
+                        <input type="file" name="image" id="image" class="form-control">
+                      </div>
+                    </div>
+                    <div class="col-md-6 row align-items-center">
+                      <div class="form-group">
+                        <input type="checkbox" {% if post.moderation %}checked {% endif %} value="True" name="moderation" id="moderation">
+                        <label for="moderation">Модерация</label>
+                        <input type="checkbox" {% if post.publish %}checked {% endif %} value="True" name="publish" id="publish">
+                        <label for="publish">Публикация</label>
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label for="price">Цена</label>
+                        <input value="{{post.price}}" type="number" name="price" class="form-control" id="price">
+                       </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="categories">Категории</label>
+                        <select name="categories[]" class="form-control select2" id="categories" multiple>
+                          {% for category in categories %}
+                          <option {% if category in post.category.all %} selected {% endif %} value="{{category.id}}">{{category.title}}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="regions">Регионы</label>
+                        <select name="regions[]" class="form-control select2" id="regions" multiple>
+                          {% for region in regions %}
+                          <option {% if region in post.region.all %} selected {% endif %} value="{{region.id}}">{{region.title}}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label for="editor">Описание</label>
+                        <textarea name="description" id="editor" rows="10">
+                            {{post.description}}
+                        </textarea>
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="row justify-content-between">
+                        <div class="col-md-2">
+                          <a href="{% url 'admin.posts' %}" class="btn btn-secondary">Назад</a>
+                        </div>
+                        <div class="col-md-2 text-right">
+                          <button class="btn btn-warning">Изменить</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+</div>
+
+{% endblock %}

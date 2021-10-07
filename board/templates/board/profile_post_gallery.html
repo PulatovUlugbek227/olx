@@ -1,0 +1,85 @@
+{% extends 'basetwo.html' %}
+{% load static %}
+{% block title %}
+Галерея поста
+{% endblock %}
+
+{% block script %}
+<script src="https://cdn.ckeditor.com/ckeditor5/27.1.0/classic/ckeditor.js"></script>
+<link rel="stylesheet" href="{% static 'css/admin.css' %}">
+{% endblock %}
+
+
+{% block content %}
+
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                  <div class="row align-items-center">
+                      <div class="col-md-6">
+                        <h3 class="card-title m-2">Галерея поста</h3>
+                      </div>
+                  </div>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                <form action="{% url 'gallery_create' post.id %}" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="hidden" name="back_url" value="{% url 'profile_post_gallery' post.id %}">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">
+                                    Название картинки
+                                </label>
+                                <input type="text" name="title" class="form-control" placeholder="Название введите тут">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">
+                                    Картинка
+                                </label>
+                                <input type="file" name="image" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md-12 text-right">
+                            <button class="btn btn-success">Добавить картинку <i class="fa fa-plus"></i></button>
+                        </div>
+                    </div>
+                </form>
+                <h3>Галерея</h3>
+                <form action="{% url 'gallery_delete' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="back_url" value="{% url 'profile_post_gallery' post.id %}">
+                    <div class="row gallery">
+                        {% for gallery_item in post.gallery_set.all %}
+                        <div class="col-md-2 gallery-item text-center">
+                            <label class="w-100">
+                                {% if gallery_item.image.url != null %}
+                                <img class="gallery-image" src="{{gallery_item.image.url}}" alt="">
+                                {% else %}
+                                <img src="" alt="{{gallery_item.title}}">
+                                {% endif %}
+                                <input type="checkbox" name="images[]" value="{{gallery_item.id}}" id="">
+                            </label>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="m-2 text-right">
+                        <button class="btn btn-success">Удалить картинки <i class="fa fa-trash"></i></button>
+                    </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+</div>
+{% endblock %}

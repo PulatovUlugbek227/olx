@@ -1,0 +1,22 @@
+{% extends 'basetwo.html' %}
+
+{% block title %}
+Войти
+{% endblock %}
+
+{% block content %}
+<form action="{% url 'login' %}" method="POST" class="form-publish">
+    {% csrf_token %}
+        <h2 class="center">Вход на сайт</h2>
+        <div class="inp-group">
+            <input type="text" name="username" id="username" class="form-control form-control__big">
+        </div>
+        <div class="inp-group">
+            <input type="password" name="password" id="password"  class="form-control form-control__big">
+        </div>
+        <button class="btn btn-primary btn-center" type="submit">Вход</button>
+        <a href="{% url 'register' %}" class="help__link text-center">
+            Регистрация                                
+        </a>                  
+</form>
+{% endblock %}

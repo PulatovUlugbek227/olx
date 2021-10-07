@@ -1,0 +1,19 @@
+/* MyHoneyPot Styling 
+
+USE THIS STYLESHEET TO FIT THE HONEYPOT STYLE TO YOUR THEME STYLE
+Probably you will not be able to use 1 style for all different 
+theme pages but you usually there is a style that fits best.
+
+You don't have to change style for the plugin to work but it
+can make a difference in case of more 'intelligent' bots.
+*/
+
+.hp_input {
+	/* display:none;*/
+position:absolute;
+left:-10px;
+top:-500px;
+width:1px;
+height:1px;
+overflow:hidden;
+}

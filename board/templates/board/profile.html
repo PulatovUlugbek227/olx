@@ -1,0 +1,130 @@
+{% extends 'basetwo.html' %}
+{% load static %}
+{% block title %}Профиль{% endblock %}
+
+{% block navitems %}   
+    <li><a href="{% url 'favourite' %}"><strong>Избранные</strong></a></li>    
+    <li><a href="{% url 'profile_posts' %}"><strong>Мои посты</strong></a></li>    
+    <li><a href="{% url 'chats' %}"><strong>Чаты</strong></a></li>    
+{% endblock %}
+
+{% block link %}
+<link rel="stylesheet" href="{% static 'oc-content/themes/eva/css/profile.css' %}">
+{% endblock %}
+
+{% block navclass %}
+class="active"
+{% endblock %}
+
+{% block content %}
+<div class="container bootstrap snippets bootdeys">
+    <div class="row" id="user-profile">
+ 
+        <div class="col-lg-3 col-md-4 col-sm-5">
+            <div class="main-box clearfix">
+                <h2> {{user.username}} </h2>
+                {% if user.profile.avatar.url != null %}
+                <img src="{{user.profile.avatar.url}}" alt="" class="img-thumbnail">
+                {% endif %}
+
+                <div class="profile-message-btn center-block text-center mt-2">
+                    <a href="{% url 'chats' %}" class="btn btn-success">
+                        <i class="fa fa-envelope"></i> Мои чаты
+                    </a>
+                </div>
+                <div class="profile-message-btn center-block text-center mt-2">
+                    <a href="{% url 'profile_posts' %}" class="btn btn-warning">
+                        <i class="fa fa-edit"></i> Мои посты
+                    </a>
+                </div>
+                <div class="profile-message-btn center-block text-center mt-2">
+                    <a href="{% url 'favourite' %}" class="btn btn-danger">
+                        <i class="fa fa-heart"></i> Избранные
+                    </a> 
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-9 col-md-8 col-sm-8">
+            <div class="main-box clearfix">
+                <form action="{% url 'profile' %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="profile-header">
+                    <h3><span>Информация о пользователе</span></h3>
+                    <button class="btn btn-primary edit-profile">
+                        <i class="fa fa-pencil-square fa-lg"></i> Изменить профиль
+                    </button>
+                </div>
+
+                <div class="row profile-user-info align-items-center">
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="" class="my-2">Имя:</label>
+                                    <input type="text" value="{{user.first_name}}" name="first_name" id="" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="" class="my-2">Фамилия:</label>
+                                    <input type="text" value="{{user.last_name}}" name="last_name" id="" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="" class="my-2">Email:</label>
+                                    <input type="email" value="{{user.email}}" name="email" id="" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="" class="my-2">Пароль:</label>
+                                    <input autocomplete="new-password" type="password"  name="password" id="" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="" class="my-2">Телефон:</label>
+                                    <input type="text" value="{{user.profile.phone}}" name="phone" id="" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="" class="my-2">Широта:</label>
+                                    <input type="text" value="{{user.profile.latitude}}" name="username" id="" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="" class="my-2">Долгота:</label>
+                                    <input type="text" value="{{user.profile.longtitude}}" name="username" id="" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="" class="my-2">Регион:</label>
+                                    <select class="form-control select2" name="region" id="">
+                                        {% for region in regions %}
+                                            <option value="{{region.id}}" {% if region.id == user.profile.region.id %} selected {% endif %}>{{region.title}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="avatar">
+                            {% if user.profile.avatar.url != null %}
+                            <img src="{{user.profile.avatar.url}}" style="width: 100%; height: 300px; object-fit:cover" alt="">
+                            {% endif %}
+                        </label>
+                        <input id="avatar" type="file" name="avatar" class="form-control">
+                    </div>
+                </div>
+                </form>
+                
+
+                <div class="tabs-wrapper profile-tabs mb-2">
+                    <ul class="nav nav-tabs">
+                        <li><a href="#tab-chat" data-toggle="tab">Чаты</a></li>
+                    </ul>
+
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

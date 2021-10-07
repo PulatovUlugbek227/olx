@@ -1,0 +1,96 @@
+{% extends 'admin/base.html' %}
+
+{% block content %}
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Записи</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="{% url 'admin' %}">Главная</a></li>
+              <li class="breadcrumb-item active">Записи</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                  <div class="row align-items-center">
+                      <div class="col-md-6">
+                        <h3 class="card-title">Все записи и объявления</h3>
+                      </div>
+                      <div class="col-md-6 text-right">
+                          <a href="{% url 'admin.posts.create' %}" class="btn btn-success">Добавить</a>
+                      </div>
+                  </div>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                <table class="table table-striped table-bordered datatable">
+                    <thead>
+                        <tr>
+                            <th>Автор</th>
+                            <th>Название</th>
+                            <th>Картинка</th>
+                            <th>Дата</th>
+                            <th>Цена</th>
+                            <th>Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for post in posts %}
+                        <tr>
+                            <td>
+                                <a href="">
+                                    {{post.user.username}}
+                                </a>
+                            </td>
+                            <td>{{post.title}}</td>
+                            <td>
+                                <img src="{{post.image.url}}" style="height: 100px; width: 100px; object-fit: cover" alt="">
+                            </td>
+                            <td>{{post.date}}</td>
+                            <td>{{post.price}}</td>
+                            <td style="font-size: 17px">
+                                <a href="{% url 'admin.posts.show' post.id %}" class="p-2">
+                                    <i class="fa fa-eye"></i>
+                                </a>
+                                <a href="{% url 'admin.posts.edit' post.id %}" class="p-2 text-warning">
+                                    <i class="fa fa-edit"></i>
+                                </a>
+                                <a href="{% url 'admin.posts.delete' post.id %}" class="p-2 text-danger">
+                                    <i class="fa fa-trash"></i>
+                                </a>
+                                <br>
+                                <form action="{% url 'admin.posts.moderated' post.id %}" method="POST">
+                                {% csrf_token %}
+                                <select name="moderated" onchange="{this.form.submit()}">
+                                    <option value="1" {% if post.moderation %} selected {% endif %}>Опубликовано</option>
+                                    <option value="0" {% if not post.moderation %} selected {% endif %}>Не Опубликовано</option>
+                                </select>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+</div>
+
+{% endblock %}
